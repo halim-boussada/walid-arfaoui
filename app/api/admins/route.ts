@@ -1,0 +1,108 @@
+import { NextRequest, NextResponse } from 'next/server';
+import pool from '@/lib/db';
+import { getCurrentUser } from '@/lib/auth';
+import bcrypt from 'bcryptjs';
+
+// GET /api/admins - Get all admin users
+export async function GET(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const result = await pool.query(
+      'SELECT id, email, role, created_at FROM admin_users ORDER BY created_at DESC'
+    );
+
+    return NextResponse.json({
+      success: true,
+      admins: result.rows,
+    });
+  } catch (error) {
+    console.error('Get admins error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch admins' },
+      { status: 500 }
+    );
+  }
+}
+
+// POST /api/admins - Create a new admin user
+export async function POST(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const { email, password, role } = await request.json();
+
+    // Validate required fields
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: 'Email and password are required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Invalid email format' },
+        { status: 400 }
+      );
+    }
+
+    // Check if admin already exists
+    const existingAdmin = await pool.query(
+      'SELECT id FROM admin_users WHERE email = $1',
+      [email]
+    );
+
+    if (existingAdmin.rows.length > 0) {
+      return NextResponse.json(
+        { error: 'An admin with this email already exists' },
+        { status: 409 }
+      );
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert new admin (use email as name for now)
+    const result = await pool.query(
+      `INSERT INTO admin_users (email, password, name, role)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, email, role, created_at`,
+      [email, hashedPassword, email.split('@')[0], role || 'admin']
+    );
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Admin created successfully',
+        admin: result.rows[0],
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error('Create admin error:', error);
+    // Return more detailed error information
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create admin';
+    return NextResponse.json(
+      {
+        error: 'Failed to create admin',
+        details: errorMessage
+      },
+      { status: 500 }
+    );
+  }
+}
