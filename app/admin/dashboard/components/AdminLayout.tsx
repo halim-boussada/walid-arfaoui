@@ -180,7 +180,7 @@ export default function AdminLayout({
               Content
             </Link> */}
 
-            <Link
+            {/* <Link
               href="/admin/dashboard/settings"
               className="group flex items-center px-4 py-3 text-white/80 rounded-lg hover:bg-gradient-to-r hover:from-[var(--gold)]/20 hover:to-[var(--orange)]/10 hover:text-white transition-all border border-transparent hover:border-[var(--orange-light)]/30"
             >
@@ -189,7 +189,7 @@ export default function AdminLayout({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               Settings
-            </Link>
+            </Link> */}
           </nav>
 
           {/* User info and logout */}
