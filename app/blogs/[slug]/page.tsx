@@ -271,8 +271,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
           </div>
         </div>
 
-        {/* Share Section */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
+        {/* <div className="mt-12 pt-8 border-t border-gray-200">
           <h3 className="text-lg font-semibold text-[var(--navy-dark)] mb-4">Partager cet article</h3>
           <div className="flex gap-4">
             <button className="px-6 py-3 bg-gradient-to-r from-[var(--gold)]/10 to-[var(--orange)]/10 border border-[var(--orange-light)]/30 rounded-lg hover:from-[var(--gold)]/20 hover:to-[var(--orange)]/20 transition-all flex items-center gap-2">
@@ -294,7 +293,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
               LinkedIn
             </button>
           </div>
-        </div>
+        </div> */}
       </article>
 
       {/* Related Articles CTA */}
