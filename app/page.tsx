@@ -398,7 +398,7 @@ export default function Home() {
         {/* Background Image with Parallax Effect */}
         <div className="absolute inset-0 z-0">
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            className="absolute inset-0 bg-cover bg-[center_right_-100px] sm:bg-[center_right_-50px] md:bg-right bg-no-repeat"
             style={{
               backgroundImage: 'url(/maitre.jpg)',
               transform: 'scale(1.1)',
@@ -435,18 +435,18 @@ export default function Home() {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto relative z-10 w-full py-20">
+        <div className="max-w-7xl mx-auto relative z-10 w-full py-12 sm:py-16 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Column - Text Content */}
             <div className="text-left">
               {/* Professional Badge */}
-              <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[var(--gold)]/20 to-[var(--orange)]/20 backdrop-blur-md rounded-full mb-6 border border-[var(--orange-light)]/50 animate-fade-in-down shadow-lg shadow-[var(--gold)]/20">
-                <div className="w-2 h-2 bg-gradient-to-r from-[var(--gold-bright)] to-[var(--orange)] rounded-full mr-3 animate-pulse"></div>
-                <span className="bg-gradient-to-r from-[var(--gold-bright)] to-[var(--orange-light)] bg-clip-text text-transparent text-sm font-bold tracking-wide">CABINET D'AVOCATS — TUNIS</span>
+              <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-[var(--gold)]/20 to-[var(--orange)]/20 backdrop-blur-md rounded-full mb-4 sm:mb-6 border border-[var(--orange-light)]/50 animate-fade-in-down shadow-lg shadow-[var(--gold)]/20">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-[var(--gold-bright)] to-[var(--orange)] rounded-full mr-2 sm:mr-3 animate-pulse"></div>
+                <span className="bg-gradient-to-r from-[var(--gold-bright)] to-[var(--orange-light)] bg-clip-text text-transparent text-xs sm:text-sm font-bold tracking-wide">CABINET D'AVOCATS — TUNIS</span>
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] animate-fade-in-up">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] animate-fade-in-up">
                 Faire valoir<br />
                 vos <span className="bg-gradient-to-r from-[var(--gold-bright)] via-[var(--orange-light)] to-[var(--orange)] bg-clip-text text-transparent relative inline-block">
                   droits
@@ -462,46 +462,46 @@ export default function Home() {
                 </span>
               </h1>
 
-              <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                <p className="text-2xl text-white/90 font-semibold mb-2">
+              <div className="mb-6 sm:mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-semibold mb-2">
                   avec une stratégie <span className="animate-text-shimmer bg-gradient-to-r from-[var(--gold-bright)] via-[var(--orange-light)] to-[var(--orange-bright)] bg-clip-text text-transparent bg-[length:200%_auto] font-bold">implacable</span>
                 </p>
               </div>
 
               {/* Firm Name */}
-              <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                <p className="text-xl text-white/80 font-light mb-2">Maître Walid Arfaoui</p>
-                <p className="text-lg text-white/60">Avocat au Barreau de Tunis</p>
+              <div className="mb-6 sm:mb-8 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 font-light mb-1 sm:mb-2">Maître Walid Arfaoui</p>
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/60">Avocat au Barreau de Tunis</p>
               </div>
 
               {/* Practice Areas */}
-              <div className="flex flex-wrap gap-3 mb-10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
                 {['Droit pénal financier', 'Réconciliation pénale', 'Droits de la défense', 'Droit du sport'].map((area, idx) => (
-                  <span key={idx} className="px-4 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white/80 text-sm hover:bg-gradient-to-r hover:from-[var(--gold)]/10 hover:to-[var(--orange)]/10 hover:border-[var(--orange-light)]/50 transition-all">
+                  <span key={idx} className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white/80 text-xs sm:text-sm hover:bg-gradient-to-r hover:from-[var(--gold)]/10 hover:to-[var(--orange)]/10 hover:border-[var(--orange-light)]/50 transition-all">
                     {area}
                   </span>
                 ))}
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: '0.5s' }}>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in" style={{ animationDelay: '0.5s' }}>
                 <button
                   onClick={() => setAppointmentModalOpen(true)}
-                  className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[var(--gold)] to-[var(--orange)] text-white text-base font-bold rounded-lg transition-all transform hover:scale-105 hover:shadow-2xl hover:shadow-[var(--orange)]/60 relative overflow-hidden"
+                  className="group inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-[var(--gold)] to-[var(--orange)] text-white text-sm sm:text-base font-bold rounded-lg transition-all transform hover:scale-105 hover:shadow-2xl hover:shadow-[var(--orange)]/60 relative overflow-hidden"
                 >
                   <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-                  <svg className="w-5 h-5 mr-2 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                   <span className="relative">Prendre rendez-vous</span>
                 </button>
                 <a
                   href="#expertise"
-                  className="group inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-md text-white text-base font-semibold rounded-lg hover:bg-gradient-to-r hover:from-[var(--gold)]/20 hover:to-[var(--orange)]/20 transition-all border border-[var(--orange-light)]/30 hover:border-[var(--orange-bright)]/70 relative overflow-hidden"
+                  className="group inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 bg-white/10 backdrop-blur-md text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-gradient-to-r hover:from-[var(--gold)]/20 hover:to-[var(--orange)]/20 transition-all border border-[var(--orange-light)]/30 hover:border-[var(--orange-bright)]/70 relative overflow-hidden"
                 >
                   <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
                   <span className="relative">Nos domaines d'expertise</span>
-                  <svg className="w-5 h-5 ml-2 relative group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 ml-2 relative group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </a>
