@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   description: "Cabinet d'avocats spécialisé en droit pénal financier, réconciliation pénale, droits de la défense et droit du sport. Plus de 250 dossiers traités, 35M de dinars de valeur traitée. Maître Walid Arfaoui, avocat au Barreau de Tunis.",
   keywords: ["avocat Tunis", "droit pénal financier", "réconciliation pénale", "cabinet d'avocats Tunisie", "Walid Arfaoui", "droits de la défense", "droit du sport"],
   authors: [{ name: "Cabinet Arfaoui Law & Consulting" }],
+  icons: {
+    icon: "/logo.svg",
+  },
   openGraph: {
     title: "Cabinet Arfaoui Law & Consulting — Tunis",
     description: "Faire valoir vos droits, avec une stratégie implacable. Spécialisé en droit pénal financier, réconciliation pénale, droits de la défense et droit du sport.",
