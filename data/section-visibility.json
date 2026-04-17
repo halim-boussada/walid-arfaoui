@@ -1,0 +1,13 @@
+{
+  "hero": true,
+  "expertise": true,
+  "publications": true,
+  "about": true,
+  "timeline": true,
+  "mediaPresence": true,
+  "testimonials": true,
+  "contact": true,
+  "blogs": true,
+  "qa": true,
+  "externalArticles": true
+}

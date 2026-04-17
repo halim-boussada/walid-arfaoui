@@ -1,0 +1,198 @@
+{
+  "hero": {
+    "badge": "CABINET D'AVOCATS — TUNIS",
+    "mainHeading": "Faire valoir",
+    "highlightedWord": "droits",
+    "subheading": "avec une stratégie",
+    "highlightedSubheading": "implacable",
+    "lawyerName": "Maître Walid Arfaoui",
+    "lawyerTitle": "Avocat au Barreau de Tunis",
+    "practiceAreas": [
+      "Droit pénal financier",
+      "Réconciliation pénale",
+      "Droits de la défense",
+      "Droit du sport"
+    ],
+    "statistics": [
+      {
+        "value": "250+",
+        "label": "Dossiers de réconciliation traités"
+      },
+      {
+        "value": "35M",
+        "label": "Dinars tunisiens de valeur traitée"
+      },
+      {
+        "value": "40%",
+        "label": "De procédures finalisées"
+      },
+      {
+        "value": "2018",
+        "label": "Début d'activité juridique"
+      }
+    ]
+  },
+  "expertise": {
+    "title": "Domaines d'intervention",
+    "subtitle": "Une expertise qui change l'issue des dossiers",
+    "domains": [
+      {
+        "icon": "shield",
+        "title": "Droit pénal financier",
+        "description": "Fraude, blanchiment d'argent, criminalité financière. Défense et conseil dans les affaires complexes impliquant des flux financiers illicites."
+      },
+      {
+        "icon": "money",
+        "title": "Réconciliation pénale",
+        "description": "Accompagnement dans le processus de conciliation avec l'État. Négociation, constitution de dossiers, suivi de procédures devant la Commission nationale."
+      },
+      {
+        "icon": "balance",
+        "title": "Droits de la défense",
+        "description": "Président de l'association Procès Équitables. Défense du droit à un procès équitable et lutte contre les détentions arbitraires."
+      },
+      {
+        "icon": "bolt",
+        "title": "Droit du sport",
+        "description": "Conseil aux athlètes, clubs et fédérations. Résolution de litiges liés aux contrats, transferts, questions disciplinaires et dopage."
+      }
+    ]
+  },
+  "publications": {
+    "title": "Analyses & positions",
+    "subtitle": "Publications récentes",
+    "articles": [
+      {
+        "number": "01",
+        "badge": "Analyse juridique",
+        "title": "Réconciliation pénale en Tunisie : où en est-on ?",
+        "description": "La Commission nationale de conciliation pénale, créée en 2022, devait permettre à l'État tunisien de récupérer des fonds issus de la corruption. Bilan des avancées et des blocages.",
+        "link": "#"
+      },
+      {
+        "number": "02",
+        "badge": "Interventions publiques",
+        "title": "Le combat public de Maître Arfaoui : ce que révèlent ses interventions",
+        "description": "Depuis 2022, l'avocat tunisien s'est imposé comme l'une des voix les plus audibles sur la réconciliation pénale. Ses interventions dessinent un positionnement clair.",
+        "link": "#"
+      },
+      {
+        "number": "03",
+        "badge": "Portrait",
+        "title": "Qui est Maître Walid Arfaoui ? Portrait d'un avocat engagé",
+        "description": "Inscrit au barreau de Tunisie, retour sur un parcours marqué par le droit pénal financier, la société civile et l'engagement pour un procès équitable.",
+        "link": "#"
+      }
+    ]
+  },
+  "about": {
+    "title": "Le cabinet",
+    "highlightedTitle": "Arfaoui Law & Consulting",
+    "description": "Depuis 2018, nous pratiquons le droit avec une rigueur sans compromis. Notre cabinet est le garant de votre confidentialité face aux enjeux les plus sensibles.",
+    "motto": "Stratégie, rigueur, résultats.",
+    "commitments": [
+      "Confidentialité absolue et protection des données clients",
+      "Expertise reconnue en droit pénal financier et réconciliation",
+      "Stratégie personnalisée pour chaque dossier",
+      "Disponibilité et réactivité face aux urgences"
+    ]
+  },
+  "timeline": {
+    "title": "Chronologie",
+    "subtitle": "Un parcours forgé par le terrain",
+    "events": [
+      {
+        "year": "2018",
+        "title": "Forum des Jeunes Juristes",
+        "description": "Intégration dans la réflexion juridique collective en Tunisie."
+      },
+      {
+        "year": "2022",
+        "title": "Commission de conciliation pénale",
+        "description": "Création de la commission. Début du travail de terrain sur la réconciliation pénale."
+      },
+      {
+        "year": "2023",
+        "title": "Interventions médiatiques",
+        "description": "Business News, Mosaïque FM, Arabesque. 250 dossiers, 35M de dinars traités."
+      },
+      {
+        "year": "2024",
+        "title": "Défense Al-Aqrabi & analyses publiques",
+        "description": "Défense publique, publications sur le blanchiment et les comptes de passage."
+      }
+    ]
+  },
+  "mediaPresence": {
+    "title": "Présence publique",
+    "subtitle": "Reconnu et cité par les médias",
+    "items": [
+      {
+        "year": "2023",
+        "title": "Business News",
+        "description": "Analyse approfondie sur le bilan de la réconciliation pénale et le rôle de la Commission nationale."
+      },
+      {
+        "year": "2023",
+        "title": "Mosaïque FM",
+        "description": "Interview sur les droits de la défense et les enjeux du procès équitable en Tunisie."
+      },
+      {
+        "year": "2024",
+        "title": "Arabesque FM",
+        "description": "Décryptage des mécanismes de blanchiment et des comptes de passage dans le système financier."
+      },
+      {
+        "year": "2024",
+        "title": "Forum des Juristes",
+        "description": "Intervention sur la défense publique et les évolutions du droit pénal financier."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Témoignages",
+    "subtitle": "La confiance de nos clients",
+    "items": [
+      {
+        "rating": 5,
+        "text": "Maître Arfaoui a su naviguer un dossier de réconciliation complexe avec une rigueur et une discrétion exceptionnelles. Résultat obtenu en moins d'un an.",
+        "author": "Ahmed B.",
+        "details": "Réconciliation pénale, 2023"
+      },
+      {
+        "rating": 5,
+        "text": "L'expertise en droit pénal financier est rare en Tunisie. Maître Arfaoui explique chaque étape et défend vos droits avec conviction.",
+        "author": "Fatma D.",
+        "details": "Défense pénale financière, 2024"
+      },
+      {
+        "rating": 5,
+        "text": "Un cabinet professionnel où la confidentialité est absolue. Recommandé pour toute question pénale ou financière de premier plan.",
+        "author": "Dr. Khalil T.",
+        "details": "Conseil juridique, 2024"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Discutons de votre situation",
+    "description": "Chaque dossier est unique et délicat. Une consultation confidentielle avec Maître Arfaoui permet de définir la stratégie adaptée à votre situation.",
+    "location": "Tunis, Tunisie",
+    "email": "contact@maitrearfaoui.com",
+    "hours": "Lundi — Vendredi, 9h — 17h",
+    "subjects": [
+      "Droit pénal financier",
+      "Réconciliation pénale",
+      "Droits de la défense",
+      "Droit du sport",
+      "Autre"
+    ]
+  },
+  "seo": {
+    "siteName": "Cabinet Arfaoui Law & Consulting",
+    "description": "Cabinet d'avocats spécialisé en droit pénal financier, réconciliation pénale, droits de la défense et droit du sport à Tunis",
+    "url": "https://maitrearfaoui.com",
+    "phone": "+216",
+    "openingHours": "Mo-Fr 09:00-17:00"
+  }
+}

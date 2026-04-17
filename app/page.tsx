@@ -37,6 +37,20 @@ interface ExternalArticle {
   created_at: string;
 }
 
+interface SectionVisibility {
+  hero: boolean;
+  expertise: boolean;
+  publications: boolean;
+  about: boolean;
+  timeline: boolean;
+  mediaPresence: boolean;
+  testimonials: boolean;
+  contact: boolean;
+  blogs: boolean;
+  qa: boolean;
+  externalArticles: boolean;
+}
+
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -47,6 +61,19 @@ export default function Home() {
   const [articlesLoading, setArticlesLoading] = useState(true);
   const [qaItems, setQaItems] = useState<QAItem[]>([]);
   const [qaLoading, setQaLoading] = useState(true);
+  const [visibility, setVisibility] = useState<SectionVisibility>({
+    hero: true,
+    expertise: true,
+    publications: true,
+    about: true,
+    timeline: true,
+    mediaPresence: true,
+    testimonials: true,
+    contact: true,
+    blogs: true,
+    qa: true,
+    externalArticles: true,
+  });
 
   // Contact form state
   const [contactForm, setContactForm] = useState({
@@ -126,6 +153,22 @@ export default function Home() {
     };
 
     fetchQA();
+  }, []);
+
+  useEffect(() => {
+    const fetchVisibility = async () => {
+      try {
+        const response = await fetch('/api/section-visibility');
+        const data = await response.json();
+        if (data.success) {
+          setVisibility(data.settings);
+        }
+      } catch (error) {
+        console.error('Error fetching visibility settings:', error);
+      }
+    };
+
+    fetchVisibility();
   }, []);
 
   const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -276,9 +319,11 @@ export default function Home() {
               <a href="#publications" className="text-gray-700 hover:bg-gradient-to-r hover:from-[var(--gold)] hover:to-[var(--orange)] hover:bg-clip-text hover:text-transparent transition-all text-sm font-medium">
                 Publications
               </a>
-              <Link href="/blogs" className="text-gray-700 hover:bg-gradient-to-r hover:from-[var(--gold)] hover:to-[var(--orange)] hover:bg-clip-text hover:text-transparent transition-all text-sm font-medium">
-                Blog
-              </Link>
+              {visibility.blogs && (
+                <Link href="/blogs" className="text-gray-700 hover:bg-gradient-to-r hover:from-[var(--gold)] hover:to-[var(--orange)] hover:bg-clip-text hover:text-transparent transition-all text-sm font-medium">
+                  Blog
+                </Link>
+              )}
               <a href="#parcours" className="text-gray-700 hover:bg-gradient-to-r hover:from-[var(--gold)] hover:to-[var(--orange)] hover:bg-clip-text hover:text-transparent transition-all text-sm font-medium">
                 Parcours
               </a>
@@ -322,9 +367,11 @@ export default function Home() {
               <a href="#publications" className="block text-gray-700 hover:text-[var(--gold)] transition-colors text-sm font-medium">
                 Publications
               </a>
-              <Link href="/blogs" className="block text-gray-700 hover:text-[var(--gold)] transition-colors text-sm font-medium">
-                Blog
-              </Link>
+              {visibility.blogs && (
+                <Link href="/blogs" className="block text-gray-700 hover:text-[var(--gold)] transition-colors text-sm font-medium">
+                  Blog
+                </Link>
+              )}
               <a href="#parcours" className="block text-gray-700 hover:text-[var(--gold)] transition-colors text-sm font-medium">
                 Parcours
               </a>
@@ -346,6 +393,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
+      {visibility.hero && (
       <section className="relative min-h-screen flex items-center px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Background Image with Parallax Effect */}
         <div className="absolute inset-0 z-0">
@@ -499,7 +547,10 @@ export default function Home() {
           </svg>
         </div>
       </section>
+      )}
 
+      {visibility.expertise && (
+      <>
       {/* Expertise Section */}
       <section id="expertise" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[var(--cream)] to-white">
         <div className="max-w-7xl mx-auto">
@@ -559,7 +610,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
+      {visibility.publications && (
+      <>
       {/* Publications Section */}
       <section id="publications" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
@@ -634,7 +689,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
+      {visibility.blogs && (
+      <>
       {/* Blogs Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
@@ -746,9 +805,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
       {/* External Articles Section (Press Mentions) */}
-      {externalArticles.length > 0 && (
+      {visibility.externalArticles && externalArticles.length > 0 && (
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[var(--cream)] to-white">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
@@ -840,6 +901,8 @@ export default function Home() {
         </section>
       )}
 
+      {visibility.about && (
+      <>
       {/* About Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[var(--cream)]">
         <div className="max-w-7xl mx-auto">
@@ -888,7 +951,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
+      {visibility.timeline && (
+      <>
       {/* Timeline Section */}
       <section id="parcours" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-5xl mx-auto">
@@ -948,7 +1015,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
+      {visibility.mediaPresence && (
+      <>
       {/* Media Presence Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
@@ -992,7 +1063,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
+      {visibility.testimonials && (
+      <>
       {/* Testimonials Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
@@ -1055,7 +1130,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
+      {visibility.qa && (
+      <>
       {/* FAQ Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-4xl mx-auto">
@@ -1103,7 +1182,11 @@ export default function Home() {
           )}
         </div>
       </section>
+      </>
+      )}
 
+      {visibility.contact && (
+      <>
       {/* Contact Section */}
       <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
@@ -1273,6 +1356,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
       {/* Footer */}
       <footer className="bg-[var(--navy-dark)] text-white py-12 px-4 sm:px-6 lg:px-8">
