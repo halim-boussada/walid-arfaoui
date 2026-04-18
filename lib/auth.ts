@@ -9,6 +9,15 @@ export interface TokenPayload {
   userId: number;
   email: string;
   role: string;
+  can_view_dashboard?: boolean;
+  can_view_blogs?: boolean;
+  can_view_messages?: boolean;
+  can_view_qa?: boolean;
+  can_view_external_articles?: boolean;
+  can_view_home_content?: boolean;
+  can_view_appointments?: boolean;
+  can_view_admins?: boolean;
+  can_view_settings?: boolean;
 }
 
 export async function generateToken(payload: TokenPayload): Promise<string> {

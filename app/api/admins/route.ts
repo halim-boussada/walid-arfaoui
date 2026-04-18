@@ -14,9 +14,38 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const result = await pool.query(
-      'SELECT id, email, role, created_at FROM admin_users ORDER BY created_at DESC'
-    );
+    // Try to fetch with permission columns first
+    let result;
+    try {
+      result = await pool.query(
+        `SELECT id, email, role, created_at,
+                can_view_dashboard, can_view_blogs, can_view_messages,
+                can_view_qa, can_view_external_articles, can_view_home_content,
+                can_view_appointments, can_view_admins, can_view_settings
+         FROM admin_users ORDER BY created_at DESC`
+      );
+    } catch (columnError) {
+      // If permission columns don't exist, fall back to basic columns
+      console.log('Permission columns not found, using basic query');
+      result = await pool.query(
+        `SELECT id, email, role, created_at
+         FROM admin_users ORDER BY created_at DESC`
+      );
+
+      // Add default permissions based on role
+      result.rows = result.rows.map(admin => ({
+        ...admin,
+        can_view_dashboard: true,
+        can_view_blogs: true,
+        can_view_messages: true,
+        can_view_qa: true,
+        can_view_external_articles: true,
+        can_view_home_content: true,
+        can_view_appointments: true,
+        can_view_admins: admin.role === 'super_admin',
+        can_view_settings: true,
+      }));
+    }
 
     return NextResponse.json({
       success: true,
@@ -42,7 +71,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { email, password, role } = await request.json();
+    const { email, password, role, permissions } = await request.json();
 
     // Validate required fields
     if (!email || !password) {
@@ -77,13 +106,69 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Set default permissions based on role if not provided
+    const defaultPermissions = {
+      can_view_dashboard: true,
+      can_view_blogs: true,
+      can_view_messages: true,
+      can_view_qa: true,
+      can_view_external_articles: true,
+      can_view_home_content: true,
+      can_view_appointments: true,
+      can_view_admins: role === 'super_admin',
+      can_view_settings: true,
+    };
+
+    const finalPermissions = permissions || defaultPermissions;
+
     // Insert new admin (use email as name for now)
-    const result = await pool.query(
-      `INSERT INTO admin_users (email, password, name, role)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id, email, role, created_at`,
-      [email, hashedPassword, email.split('@')[0], role || 'admin']
-    );
+    let result;
+    try {
+      // Try to insert with permission columns
+      result = await pool.query(
+        `INSERT INTO admin_users (
+          email, password, name, role,
+          can_view_dashboard, can_view_blogs, can_view_messages,
+          can_view_qa, can_view_external_articles, can_view_home_content,
+          can_view_appointments, can_view_admins, can_view_settings
+        )
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+         RETURNING id, email, role, created_at,
+                   can_view_dashboard, can_view_blogs, can_view_messages,
+                   can_view_qa, can_view_external_articles, can_view_home_content,
+                   can_view_appointments, can_view_admins, can_view_settings`,
+        [
+          email,
+          hashedPassword,
+          email.split('@')[0],
+          role || 'admin',
+          finalPermissions.can_view_dashboard,
+          finalPermissions.can_view_blogs,
+          finalPermissions.can_view_messages,
+          finalPermissions.can_view_qa,
+          finalPermissions.can_view_external_articles,
+          finalPermissions.can_view_home_content,
+          finalPermissions.can_view_appointments,
+          finalPermissions.can_view_admins,
+          finalPermissions.can_view_settings,
+        ]
+      );
+    } catch (columnError) {
+      // If permission columns don't exist, fall back to basic insert
+      console.log('Permission columns not found, using basic insert');
+      result = await pool.query(
+        `INSERT INTO admin_users (email, password, name, role)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id, email, role, created_at`,
+        [email, hashedPassword, email.split('@')[0], role || 'admin']
+      );
+
+      // Add default permissions to the result
+      result.rows[0] = {
+        ...result.rows[0],
+        ...finalPermissions,
+      };
+    }
 
     return NextResponse.json(
       {

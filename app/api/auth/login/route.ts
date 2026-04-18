@@ -40,11 +40,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate JWT token
+    // Generate JWT token with permissions (with fallbacks if columns don't exist)
     const token = await generateToken({
       userId: user.id,
       email: user.email,
       role: user.role,
+      can_view_dashboard: user.can_view_dashboard ?? true,
+      can_view_blogs: user.can_view_blogs ?? true,
+      can_view_messages: user.can_view_messages ?? true,
+      can_view_qa: user.can_view_qa ?? true,
+      can_view_external_articles: user.can_view_external_articles ?? true,
+      can_view_home_content: user.can_view_home_content ?? true,
+      can_view_appointments: user.can_view_appointments ?? true,
+      can_view_admins: user.can_view_admins ?? (user.role === 'super_admin'),
+      can_view_settings: user.can_view_settings ?? true,
     });
 
     // Create response with cookie

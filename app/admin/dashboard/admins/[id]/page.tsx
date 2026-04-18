@@ -1,18 +1,33 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function NewAdminPage() {
+interface Admin {
+  id: number;
+  email: string;
+  role: string;
+  can_view_dashboard: boolean;
+  can_view_blogs: boolean;
+  can_view_messages: boolean;
+  can_view_qa: boolean;
+  can_view_external_articles: boolean;
+  can_view_home_content: boolean;
+  can_view_appointments: boolean;
+  can_view_admins: boolean;
+  can_view_settings: boolean;
+}
+
+export default function EditAdminPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'admin',
-  });
+  const params = useParams();
+  const adminId = params.id as string;
+
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [admin, setAdmin] = useState<Admin | null>(null);
+  const [role, setRole] = useState('admin');
   const [permissions, setPermissions] = useState({
     can_view_dashboard: true,
     can_view_blogs: true,
@@ -25,10 +40,15 @@ export default function NewAdminPage() {
     can_view_settings: true,
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    fetchAdmin();
+  }, [adminId]);
 
   // Auto-update permissions when role changes
   useEffect(() => {
-    if (formData.role === 'super_admin') {
+    if (role === 'super_admin') {
       setPermissions({
         can_view_dashboard: true,
         can_view_blogs: true,
@@ -40,7 +60,8 @@ export default function NewAdminPage() {
         can_view_admins: true,
         can_view_settings: true,
       });
-    } else {
+    } else if (admin && role !== admin.role) {
+      // Only reset if role is changing from what was loaded
       setPermissions({
         can_view_dashboard: true,
         can_view_blogs: true,
@@ -53,7 +74,37 @@ export default function NewAdminPage() {
         can_view_settings: true,
       });
     }
-  }, [formData.role]);
+  }, [role]);
+
+  const fetchAdmin = async () => {
+    try {
+      const response = await fetch(`/api/admins/${adminId}`);
+      const data = await response.json();
+
+      if (data.success) {
+        setAdmin(data.admin);
+        setRole(data.admin.role);
+        setPermissions({
+          can_view_dashboard: data.admin.can_view_dashboard,
+          can_view_blogs: data.admin.can_view_blogs,
+          can_view_messages: data.admin.can_view_messages,
+          can_view_qa: data.admin.can_view_qa,
+          can_view_external_articles: data.admin.can_view_external_articles,
+          can_view_home_content: data.admin.can_view_home_content,
+          can_view_appointments: data.admin.can_view_appointments,
+          can_view_admins: data.admin.can_view_admins,
+          can_view_settings: data.admin.can_view_settings,
+        });
+      } else {
+        setError('Admin introuvable');
+      }
+    } catch (error) {
+      console.error('Error fetching admin:', error);
+      setError('Erreur lors du chargement de l\'administrateur');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handlePermissionChange = (permission: keyof typeof permissions) => {
     setPermissions(prev => ({
@@ -65,31 +116,17 @@ export default function NewAdminPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
-      setError('Les mots de passe ne correspondent pas');
-      return;
-    }
-
-    // Validate password length
-    if (formData.password.length < 8) {
-      setError('Le mot de passe doit contenir au moins 8 caractères');
-      return;
-    }
-
-    setLoading(true);
+    setSuccess('');
+    setSaving(true);
 
     try {
-      const response = await fetch('/api/admins', {
-        method: 'POST',
+      const response = await fetch(`/api/admins/${adminId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          role: formData.role,
+          role: role,
           permissions: permissions,
         }),
       });
@@ -97,22 +134,41 @@ export default function NewAdminPage() {
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/admin/dashboard/admins');
-        router.refresh();
+        setSuccess('Administrateur modifié avec succès');
+        setTimeout(() => {
+          router.push('/admin/dashboard/admins');
+          router.refresh();
+        }, 1500);
       } else {
-        const errorMsg = data.details
-          ? `${data.error}: ${data.details}`
-          : data.error || 'Erreur lors de la création';
+        const errorMsg = data.error || 'Erreur lors de la modification';
         setError(errorMsg);
         console.error('Server error:', data);
       }
     } catch (error) {
-      console.error('Error creating admin:', error);
-      setError('Erreur lors de la création de l\'administrateur');
+      console.error('Error updating admin:', error);
+      setError('Erreur lors de la modification de l\'administrateur');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--gold)]"></div>
+      </div>
+    );
+  }
+
+  if (!admin) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-6">
+          <p className="text-red-400">{error || 'Administrateur introuvable'}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -138,10 +194,10 @@ export default function NewAdminPage() {
           Retour aux administrateurs
         </Link>
         <h1 className="text-3xl font-bold text-white mb-2">
-          Nouvel Administrateur
+          Modifier Administrateur
         </h1>
         <p className="text-white/60">
-          Créez un nouveau compte administrateur
+          Modifiez le rôle et les permissions de {admin.email}
         </p>
       </div>
 
@@ -154,71 +210,26 @@ export default function NewAdminPage() {
             </div>
           )}
 
-          {/* Email */}
+          {success && (
+            <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+              <p className="text-green-400 text-sm">{success}</p>
+            </div>
+          )}
+
+          {/* Email (read-only) */}
           <div>
             <label
               htmlFor="email"
               className="block text-sm font-medium text-white mb-2"
             >
-              Email <span className="text-red-400">*</span>
+              Email
             </label>
             <input
               type="email"
               id="email"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              className="w-full px-4 py-3 bg-white/5 border border-[var(--orange-light)]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--gold)] focus:border-transparent transition-all"
-              placeholder="admin@example.com"
-              required
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-white mb-2"
-            >
-              Mot de passe <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              className="w-full px-4 py-3 bg-white/5 border border-[var(--orange-light)]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--gold)] focus:border-transparent transition-all"
-              placeholder="••••••••"
-              required
-              minLength={8}
-            />
-            <p className="text-xs text-white/50 mt-2">
-              Le mot de passe doit contenir au moins 8 caractères
-            </p>
-          </div>
-
-          {/* Confirm Password */}
-          <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-white mb-2"
-            >
-              Confirmer le mot de passe <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={(e) =>
-                setFormData({ ...formData, confirmPassword: e.target.value })
-              }
-              className="w-full px-4 py-3 bg-white/5 border border-[var(--orange-light)]/30 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--gold)] focus:border-transparent transition-all"
-              placeholder="••••••••"
-              required
-              minLength={8}
+              value={admin.email}
+              disabled
+              className="w-full px-4 py-3 bg-white/5 border border-[var(--orange-light)]/30 rounded-lg text-white/50 cursor-not-allowed"
             />
           </div>
 
@@ -232,10 +243,8 @@ export default function NewAdminPage() {
             </label>
             <select
               id="role"
-              value={formData.role}
-              onChange={(e) =>
-                setFormData({ ...formData, role: e.target.value })
-              }
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
               className="w-full px-4 py-3 bg-white/5 border border-[var(--orange-light)]/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[var(--gold)] focus:border-transparent transition-all"
             >
               <option value="admin" className="bg-[var(--navy-dark)]">
@@ -331,11 +340,11 @@ export default function NewAdminPage() {
                   type="checkbox"
                   checked={permissions.can_view_admins}
                   onChange={() => handlePermissionChange('can_view_admins')}
-                  disabled={formData.role !== 'super_admin'}
+                  disabled={role !== 'super_admin'}
                   className="w-4 h-4 text-[var(--gold)] bg-white/10 border-[var(--orange-light)]/30 rounded focus:ring-[var(--gold)] focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
-                <span className={`ml-3 text-sm ${formData.role !== 'super_admin' ? 'text-white/50' : 'text-white'}`}>
-                  Administrateurs {formData.role !== 'super_admin' && '(Super Admin uniquement)'}
+                <span className={`ml-3 text-sm ${role !== 'super_admin' ? 'text-white/50' : 'text-white'}`}>
+                  Administrateurs {role !== 'super_admin' && '(Super Admin uniquement)'}
                 </span>
               </label>
 
@@ -358,10 +367,10 @@ export default function NewAdminPage() {
           <div className="flex items-center gap-4 pt-6 border-t border-white/10">
             <button
               type="submit"
-              disabled={loading}
+              disabled={saving}
               className="px-8 py-3 bg-gradient-to-r from-[var(--gold)] to-[var(--orange)] text-white rounded-lg hover:shadow-lg hover:shadow-[var(--orange)]/20 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
             >
-              {loading ? (
+              {saving ? (
                 <>
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -383,7 +392,7 @@ export default function NewAdminPage() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Création en cours...
+                  Enregistrement...
                 </>
               ) : (
                 <>
@@ -400,7 +409,7 @@ export default function NewAdminPage() {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  Créer l'administrateur
+                  Enregistrer les modifications
                 </>
               )}
             </button>
