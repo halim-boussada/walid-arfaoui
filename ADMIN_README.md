@@ -12,11 +12,13 @@ A default admin user has been created for you:
 ## Accessing the Admin Dashboard
 
 1. Start the development server:
+
    ```bash
    npm run dev
    ```
 
 2. Navigate to the admin login page:
+
    ```
    http://localhost:3000/admin/login
    ```
@@ -44,6 +46,7 @@ npm run admin:create
 ```
 
 You'll be prompted to enter:
+
 - Admin name
 - Email address
 - Password
@@ -109,7 +112,7 @@ You'll be prompted to enter the email address of the admin to delete.
 
 1. Verify your credentials
 2. Check that the database is running
-3. Verify `.env.local` file exists with correct database credentials
+3. Verify `.env` file exists with correct database credentials
 4. Run `npm run admin:list` to verify admin user exists
 
 ### Port Already in Use?
@@ -119,6 +122,7 @@ If port 3000 is already in use, Next.js will automatically use the next availabl
 ## Next Steps
 
 Extend the dashboard by:
+
 1. Adding content management features
 2. Implementing blog post CRUD operations
 3. Adding analytics and reporting

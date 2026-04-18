@@ -394,7 +394,7 @@ export default function HomeContentPage() {
             <div>
               <label className="block text-sm font-medium text-white mb-4">Statistiques</label>
               {content.hero.statistics.map((stat, index) => (
-                <div key={index} className="flex gap-2 mb-4 p-4 bg-white/5 rounded-lg">
+                <div key={index} className="flex flex-wrap gap-2 mb-4 p-4 bg-white/5 rounded-lg">
                   <input
                     type="text"
                     value={stat.value}

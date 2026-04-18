@@ -4,8 +4,8 @@ import * as readline from "readline";
 import * as dotenv from "dotenv";
 import { join } from "path";
 
-// Load .env.local file
-dotenv.config({ path: join(__dirname, "..", ".env.local") });
+// Load .env file
+dotenv.config({ path: join(__dirname, "..", ".env") });
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST || "localhost",
